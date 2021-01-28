@@ -1,5 +1,5 @@
 defmodule Identicon do
-  def main(str) do
+  def from_string(str) do
     str
     |> hash
     |> pick_color
