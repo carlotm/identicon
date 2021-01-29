@@ -1,14 +1,14 @@
 defmodule Identicon do
   def from_string(str) do
     hash = :crypto.hash(:md5, str) |> :binary.bin_to_list()
-    generate_image(color(hash), coords(hash)) |> save("#{str}.png")
+    generate_image(color(hash), coords(hash)) |> save(filename(str))
   end
 
-  def color([r, g, b | _]) do
+  defp color([r, g, b | _]) do
     {r, g, b}
   end
 
-  def coords(hash) do
+  defp coords(hash) do
     hash
     |> Enum.chunk_every(3, 3, :discard)
     |> Enum.map(&mirror/1)
@@ -18,11 +18,11 @@ defmodule Identicon do
     |> Enum.map(&square/1)
   end
 
-  def mirror([one, two | _] = row) do
+  defp mirror([one, two | _] = row) do
     row ++ [two, one]
   end
 
-  def square({_, i}) do
+  defp square({_, i}) do
     x = rem(i, 5) * 50
     y = div(i, 5) * 50
     top_left = {x, y}
@@ -30,7 +30,7 @@ defmodule Identicon do
     {top_left, bottom_right}
   end
 
-  def generate_image(color, coords) do
+  defp generate_image(color, coords) do
     image = :egd.create(250, 250)
     fill = :egd.color(color)
 
@@ -41,7 +41,10 @@ defmodule Identicon do
     :egd.render(image)
   end
 
-  def save(image, filename) do
+  defp save(image, filename) do
     File.write(filename, image)
   end
+
+  defp filename(""), do: "_.png"
+  defp filename(str), do: "#{str}.png"
 end

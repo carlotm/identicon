@@ -2,7 +2,10 @@ defmodule IdenticonTest do
   use ExUnit.Case
 
   setup do
-    on_exit(fn -> File.rm!("elixir.png") end)
+    on_exit(fn ->
+      File.rm("elixir.png")
+      File.rm("_.png")
+    end)
   end
 
   test "Generate an identicon from a string" do
@@ -12,5 +15,11 @@ defmodule IdenticonTest do
     got = :crypto.hash(:md5, content)
 
     assert expected == got
+  end
+
+  test "Generate an identicon with name _.png from an empty string" do
+    Identicon.from_string("")
+
+    assert File.exists?("_.png")
   end
 end
