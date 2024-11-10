@@ -1,0 +1,12 @@
+{"1.2.0",
+[{<<"egd">>,
+  {git,"https://github.com/erlang/egd.git",
+       {ref,"1cea959544de7dd40a3284ba571a58939de57616"}},
+  0},
+ {<<"elli">>,{pkg,<<"elli">>,<<"3.0.0">>},0}]}.
+[
+{pkg_hash,[
+ {<<"elli">>, <<"D7CC24CFA886AC6A51D369B2C974392BEC9CD1E1CAA3931194D2BF52B763D82F">>}]},
+{pkg_hash_ext,[
+ {<<"elli">>, <<"290F85AB5610E20905B52F46EEAFC68F8EA0DA1923BC452D71210A8CD475FB35">>}]}
+].
