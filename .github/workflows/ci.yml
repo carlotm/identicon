@@ -15,4 +15,4 @@ jobs:
         run: devbox run warpinstall
 
       - name: Make the release and warp it
-        run: rebar3 release
+        run: devbox run -- rebar3 release
