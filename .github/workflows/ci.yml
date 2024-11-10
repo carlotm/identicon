@@ -16,3 +16,12 @@ jobs:
 
       - name: Make the release and warp it
         run: devbox run -- rebar3 release
+
+      - name: Start the release
+        run: ./edenticon daemon
+
+      - name: Ping the release
+        run: ./edenticon ping
+
+      - name: Stop the release
+        run: ./edenticon stop
