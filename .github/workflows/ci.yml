@@ -1,0 +1,18 @@
+name: Playing with devbox
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.11.0
+
+      - name: Install warp
+        run: devbox run warpinstall
+
+      - name: Make the release and warp it
+        run: rebar3 release
