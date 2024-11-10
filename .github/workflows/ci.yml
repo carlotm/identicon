@@ -23,5 +23,8 @@ jobs:
       - name: Ping the release
         run: ./edenticon ping
 
+      - name: Use the release
+        run: curl http://127.0.0.1:9091/generate/xxx?size=24
+
       - name: Stop the release
         run: ./edenticon stop
