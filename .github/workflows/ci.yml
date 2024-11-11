@@ -11,9 +11,6 @@ jobs:
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
 
-      - name: Install warp
-        run: devbox run warpinstall
-
       - name: Make the release and warp it
         run: devbox run -- rebar3 release
 

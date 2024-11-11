@@ -18,5 +18,4 @@ logs
 *.iml
 rebar3.crashdump
 *~
-/warp-packer
 /edenticon
