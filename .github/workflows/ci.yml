@@ -1,4 +1,4 @@
-name: Playing with devbox
+name: Build and try an indenticon release
 
 on: push
 
