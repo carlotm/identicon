@@ -25,3 +25,12 @@ jobs:
 
       - name: Stop the release
         run: ./edenticon stop
+
+      - name: Publish the release
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          source: edenticon
+          target: public_html/edenticon/
