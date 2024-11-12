@@ -11,14 +11,17 @@ jobs:
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
 
+      - name: Store the version
+        run: echo "VSN=$(cat VERSION)" >> $GITHUB_ENV
+
       - name: Make the release and warp it
         run: devbox run -- rebar3 release
 
       - name: Start the release
-        run: ./edenticon.0.1.linux-x64 daemon
+        run: ./edenticon.${VSN}.linux-x64 daemon
 
       - name: Ping the release
-        run: ./edenticon.0.1.linux-x64 ping
+        run: ./edenticon.${VSN}.linux-x64 ping
 
       - name: Default params
         run: curl http://127.0.0.1:9091/generate/xxx?size=24
@@ -30,7 +33,7 @@ jobs:
         run: curl http://127.0.0.1:9091/generate/xxx?format=svg
 
       - name: Stop the release
-        run: ./edenticon.0.1.linux-x64 stop
+        run: ./edenticon.${VSN}.linux-x64 stop
 
       - name: Publish the release
         uses: appleboy/scp-action@v0.1.7
@@ -38,5 +41,5 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.KEY }}
-          source: edenticon.*
+          source: edenticon.${VSN}.linux-x64
           target: public_html/edenticon/
