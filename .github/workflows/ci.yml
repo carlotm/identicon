@@ -15,10 +15,10 @@ jobs:
         run: devbox run -- rebar3 release
 
       - name: Start the release
-        run: ./edenticon daemon
+        run: ./edenticon.0.1.linux-x64 daemon
 
       - name: Ping the release
-        run: ./edenticon ping
+        run: ./edenticon.0.1.linux-x64 ping
 
       - name: Default params
         run: curl http://127.0.0.1:9091/generate/xxx?size=24
@@ -30,7 +30,7 @@ jobs:
         run: curl http://127.0.0.1:9091/generate/xxx?format=svg
 
       - name: Stop the release
-        run: ./edenticon stop
+        run: ./edenticon.0.1.linux-x64 stop
 
       - name: Publish the release
         uses: appleboy/scp-action@v0.1.7
