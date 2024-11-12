@@ -8,9 +8,8 @@ handle(Req, _Args) ->
 
 handle('GET', [<<"generate">>, In], Req) ->
     Size = get_size(Req),
-    ImageData = edenticon_core:from_string(In, Size),
-    Encoded = base64:encode(ImageData),
-    Resp = <<"<img src=\"data:image/png;base64,",Encoded/binary,"\" />">>,
+    Format = get_format(Req),
+    Resp = edenticon_core:as(Format, In, Size),
     {ok, [], Resp};
 
 handle(_, _, _Req) ->
@@ -25,4 +24,12 @@ get_size(Req) ->
         V -> V
     catch
         error:_ -> 250
+    end.
+
+get_format(Req) ->
+    Format = elli_request:get_arg(<<"format">>, Req, <<"png">>),
+    try binary_to_existing_atom(Format) of
+        V -> V
+    catch
+        error:_ -> png
     end.

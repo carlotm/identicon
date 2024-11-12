@@ -1,14 +1,41 @@
 -module(edenticon_core).
--export([from_string/2]).
+-export([as/3]).
 
-from_string(In, Size) ->
+as(Format, In, Size) ->
+    {HashedStr, Coords} = hash(In, Size),
+    Color = color(Format, HashedStr),
+    generate(Format, Color, Coords, Size).
+
+generate(svg, Color, Coords, Size) ->
+    RectOpts = [{fill, Color}],
+    SVG1 = svg:init(Size, Size),
+    SVG2 = lists:foldl(fun(Curr, Acc) ->
+        {{X1, Y1} = TopLeft, {X2, Y2}} = rect_round(Curr),
+        RectSize = {X2 - X1, Y2 - Y1},
+        Rect = svg:rect({TopLeft, RectSize}, RectOpts),
+        svg:add(Rect, Acc)
+    end, SVG1, Coords),
+    list_to_binary(lists:flatten(svg:export(SVG2)));
+generate(png, Color, Coords, Size) ->
+    Image = egd:create(Size, Size),
+    lists:foreach(fun(Curr) ->
+      {TopLeft, BottomRight} = rect_round(Curr),
+      egd:filledRectangle(Image, TopLeft, BottomRight, Color)
+    end, Coords),
+    ImageData = egd:render(Image),
+    Encoded = base64:encode(ImageData),
+    <<"<img src=\"data:image/png;base64,",Encoded/binary,"\" />">>.
+
+hash(In, Size) ->
     Hashed = crypto:hash(md5, In),
     HashedStr = binary:bin_to_list(Hashed),
-    Color = color(HashedStr),
     Coords = coords(HashedStr, Size div 5),
-    write_image(Color, Coords, Size).
+    {HashedStr, Coords}.
 
-color([R, G, B | _]) -> {R, G, B}.
+color(svg, [R, G, B | _]) ->
+    L = [integer_to_list(X) || X <- [R, G, B]],
+    ["rgb(", lists:join(",", L), ")"];
+color(png, [R, G, B | _]) -> egd:color({R, G, B}).
 
 coords(Str, U) ->
     Groups = group_by(Str, 3),
@@ -39,12 +66,5 @@ square({I, _}, U) ->
     BottomRight = {X + U, Y + U},
     {TopLeft, BottomRight}.
 
-write_image(Color, Coords, Size) ->
-    Image = egd:create(Size, Size),
-    FillColor = egd:color(Color),
-    lists:foreach(fun({{X1, Y1}, {X2, Y2}}) ->
-      Start = {round(X1), round(Y1)},
-      Stop = {round(X2), round(Y2)},
-      egd:filledRectangle(Image, Start, Stop, FillColor)
-    end, Coords),
-    egd:render(Image).
+rect_round({{X1, Y1}, {X2, Y2}}) ->
+    {{round(X1), round(Y1)}, {round(X2), round(Y2)}}.
