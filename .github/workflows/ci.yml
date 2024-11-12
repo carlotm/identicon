@@ -20,8 +20,14 @@ jobs:
       - name: Ping the release
         run: ./edenticon ping
 
-      - name: Use the release
+      - name: Default params
         run: curl http://127.0.0.1:9091/generate/xxx?size=24
+
+      - name: Png and size
+        run: curl http://127.0.0.1:9091/generate/xxx?size=24&format=png
+
+      - name: SVG
+        run: curl http://127.0.0.1:9091/generate/xxx?format=svg
 
       - name: Stop the release
         run: ./edenticon stop
@@ -32,5 +38,5 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.KEY }}
-          source: edenticon
+          source: edenticon.*
           target: public_html/edenticon/
