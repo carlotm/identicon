@@ -6,6 +6,10 @@ as(Format, In, Size) ->
     Color = color(Format, HashedStr),
     generate(Format, Color, Coords, Size).
 
+%%
+%% Helpers
+%%
+
 generate(svg, Color, Coords, Size) ->
     RectOpts = [{fill, Color}],
     SVG1 = svg:init(Size, Size),

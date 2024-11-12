@@ -1,0 +1,8 @@
+#!/bin/sh
+
+VSN=$(\cat VERSION)
+./scripts/warp-packer \
+    -a linux-x64 \
+    -i _build/default/rel/edenticon \
+    -e launch \
+    -o edenticon.${VSN}.linux-x64

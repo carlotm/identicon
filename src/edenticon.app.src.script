@@ -1,0 +1,6 @@
+{ok, Cwd} = file:get_cwd(),
+{ok, Content} = file:read_file("VERSION"),
+VSN = binary_to_list(string:trim(Content)),
+{application, Name, AppConfig0} = lists:keyfind(application, 1, CONFIG),
+AppConfig1 = [{vsn, VSN}|AppConfig0],
+lists:keyreplace(application, 1, CONFIG, {application, Name, AppConfig1}).
