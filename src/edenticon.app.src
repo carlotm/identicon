@@ -1,5 +1,6 @@
 {application, edenticon,
     [{description, "An OTP application"}
+    ,{vsn, {cmd, "cat VERSION"}}
     ,{registered, []}
     ,{mod, {edenticon_app, []}}
     ,{applications, [kernel
