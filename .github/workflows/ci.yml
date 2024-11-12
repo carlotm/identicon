@@ -41,5 +41,5 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.KEY }}
-          source: edenticon.$VSN.linux-x64
+          source: edenticon.${{ env.VSN }}.linux-x64
           target: public_html/edenticon/
