@@ -42,4 +42,4 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.KEY }}
           source: edenticon.${{ env.VSN }}.linux-x64
-          target: public_html/edenticon/
+          target: public_html/dl/
