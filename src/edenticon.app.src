@@ -5,8 +5,10 @@
     ,{mod, {edenticon_app, []}}
     ,{applications, [kernel
                     ,stdlib
+                    ,xmerl
                     ,elli
                     ,egd
+                    ,svg
                     ]}
     ,{env, []}
     ,{modules, []}
