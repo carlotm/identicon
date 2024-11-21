@@ -7,7 +7,7 @@ as(Format, In, Size) ->
     generate(Format, Color, Coords, Size).
 
 %%
-%% Helpers!
+%% Helpers
 %%
 
 generate(svg, Color, Coords, Size) ->
